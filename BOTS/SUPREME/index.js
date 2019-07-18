@@ -2,7 +2,7 @@ var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var xhr = new XMLHttpRequest();
 const fs = require('fs')
 const chalk = require('chalk');
-const inquirer = require('inquirer')
+const inquirer = require('inquirer');
 var bot_version;
 var socket;
 var cadress;
@@ -101,11 +101,6 @@ function main(ip) {
     console.log(chalk.green("Connected to the control console!"))
     console.log("Sending state...")
     state = getState();
-    /*
-    if (state["link"]) {
-      state["state"] = "Ready"
-    }
-    */
     socket.emit('bot_states', state)
   });
   //Channel of BOT

@@ -9,6 +9,14 @@ var send_command;
 //Object
 var bots;
 bots = {};
+
+//Not very secure but fuck it
+process.on('uncaughtException', function (err) {
+  console.log(chalk.grey("[SERVER_FATAL]: Oh shit, this is bad, recovering somehow..."));
+  console.log(chalk.grey("[SERVER_FATAL]: You should check the logs"));
+});
+
+
 //Parse Package details
 console.log("Checking Version...")
 const fileContents = fs.readFileSync('./package.json', 'utf8')
@@ -90,8 +98,22 @@ function cliconsole() {
       } else if (data.includes("disconnect -bot")) {
           dataarg = data.split(/\s+/)[2];
           console.log("[SERVER]: Disconnecting "+dataarg+"...");
-          bots[dataarg]["connection"] = false;
-          send_command(dataarg, "disconnect");
+          try {
+            if (!bots[dataarg]["connection"]) {
+              console.log("[SERVER]: " + dataarg + " is not connected")
+            } else {
+              bots[dataarg]["connection"] = false;
+            }
+          } catch(e) {
+            console.error("[SERVER]: Unable to disconnect " + dataarg)
+            console.error(chalk.red(e))
+          } finally {
+            send_command(dataarg, "disconnect");
+          }
+      } else if (data.includes("set link -bot")) {
+          dataarg = data.split(/\s+/)[3];
+          dataarg2 = data.split(/\s+/)[4];
+          console.log("[SERVER]: Not Available")
       } else {
           // Print user input in console.
           console.log('Undefined command');
