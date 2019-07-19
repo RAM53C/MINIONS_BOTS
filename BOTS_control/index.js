@@ -2,6 +2,7 @@ var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var xhr = new XMLHttpRequest();
 const server = require('http').createServer();
 const io = require('socket.io')(server);
+const cliCommands = require('./cliconsole');
 const fs = require('fs');
 const chalk = require('chalk');
 var bot_version;
@@ -13,7 +14,8 @@ bots = {};
 //Not very secure but fuck it
 process.on('uncaughtException', function (err) {
   console.log(chalk.grey("[SERVER_FATAL]: Oh shit, this is bad, recovering somehow..."));
-  console.log(chalk.grey("[SERVER_FATAL]: You should check the logs"));
+  console.log(chalk.grey("[SERVER_FATAL]: Some logs to read:"));
+  console.log(chalk.grey(err))
 });
 
 
@@ -78,9 +80,9 @@ function setup() {
   server.listen(3000);
 }
 
-
-
 function cliconsole() {
+
+  console.log("CLI Console Initialized...")
   // Get process.stdin as the standard input object.
   var standard_input = process.stdin;
 
@@ -94,43 +96,21 @@ function cliconsole() {
           // Program exit.
           process.exit();
       } else if (data === 'list bots\n') {
-          list();
+          cliCommands.list(bots);
       } else if (data.includes("disconnect -bot")) {
           dataarg = data.split(/\s+/)[2];
-          console.log("[SERVER]: Disconnecting "+dataarg+"...");
-          try {
-            if (!bots[dataarg]["connection"]) {
-              console.log("[SERVER]: " + dataarg + " is not connected")
-            } else {
-              bots[dataarg]["connection"] = false;
-            }
-          } catch(e) {
-            console.error("[SERVER]: Unable to disconnect " + dataarg)
-            console.error(chalk.red(e))
-          } finally {
+          if (cliCommands.check_disconnect(bots, dataarg)) {
             send_command(dataarg, "disconnect");
           }
       } else if (data.includes("set link -bot")) {
           dataarg = data.split(/\s+/)[3];
           dataarg2 = data.split(/\s+/)[4];
-          console.log("[SERVER]: Not Available")
+          if (cliCommands.set_link(bots, dataarg, dataarg2)) {
+            send_command(dataarg, "check_link " + dataarg2);
+          }
       } else {
           // Print user input in console.
           console.log('Undefined command');
       }
-  });
-}
-
-function list() {
-  console.log(chalk.grey("Registered BOTS:"))
-  /*
-  ID: BOT_SUPREME0 | State: CONNECTED - UNSET
-  */
-  Object.keys(bots).forEach(function(key) {
-    if (bots[key]["connection"] == true) {
-      console.log(chalk.grey("ID: " + key + " | State: ") + chalk.green("CONNECTED") + " - " + bots[key]["state"].toUpperCase() + chalk.grey(" | Links: " + bots[key]["link"]))
-    } else {
-      console.log(chalk.grey("ID: " + key + " | State: ") + chalk.red("DISCONNECTED") + " - " + bots[key]["state"].toUpperCase() + chalk.grey(" | Links: " + bots[key]["link"]))
-    }
   });
 }
