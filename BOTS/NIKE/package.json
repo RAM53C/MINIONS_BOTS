@@ -1,0 +1,19 @@
+{
+  "name": "minion_bot_supreme",
+  "version": "1.0.0",
+  "description": "Bots developed by GX Tech for buying items without proxy support",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "GX Tech",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "inquirer": "^6.5.0",
+    "rx": "^4.1.0",
+    "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0",
+    "xmlhttprequest": "^1.8.0"
+  }
+}
