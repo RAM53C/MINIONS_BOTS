@@ -88,7 +88,7 @@ function main(ip) {
   socket.on('connect', function(){
     console.log(chalk.green("Connected to the control console!"))
     console.log("Sending state...")
-    state = getState();
+    state = core.getState();
     socket.emit('bot_states', state)
   });
   //Channel of BOT
