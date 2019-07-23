@@ -1,8 +1,7 @@
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-var xhr = new XMLHttpRequest();
 const fs = require('fs')
 const chalk = require('chalk');
 const inquirer = require('inquirer');
+const core = require('./botcore.js')
 var bot_version;
 var socket;
 var cadress;
@@ -82,17 +81,6 @@ function motd() {
   console.log("===============================")
 }
 
-function getState() {
-  botfileContents = fs.readFileSync('./bot.json', 'utf8')
-  try {
-    return JSON.parse(botfileContents)
-  } catch(err) {
-    console.error("Failed to parse bot.json")
-    console.error(err)
-    process.exit(1)
-  }
-}
-
 function main(ip) {
   //Check for updates with version
   console.log("Waiting control console with IP "+ip+"...")
@@ -104,7 +92,7 @@ function main(ip) {
     socket.emit('bot_states', state)
   });
   //Channel of BOT
-  state = getState();
+  state = core.getState();
   ids = state["id"];
   socket.on(ids, function(data){
     console.log("Command Received: " + data)
