@@ -76,7 +76,7 @@ function initsetup() {
 
 function motd() {
   console.log("===============================")
-  console.log("MINIONS: Nike Bot")
+  console.log("MINIONS: OFFWHITE Bot")
   console.log(bot_version)
   console.log("===============================")
 }
