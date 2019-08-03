@@ -106,7 +106,9 @@ function main(ip) {
       //Grab Link and send to checker
       dataarg = data.split(/\s+/)[1];
       console.log("Checking Link: " + dataarg)
-
+      core.getMainLink(dataarg, function(arg){
+        console.log(arg)
+      });
     }
   });
 
