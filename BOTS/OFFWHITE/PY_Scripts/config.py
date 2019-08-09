@@ -1,5 +1,7 @@
 keys = {
-        "product_url": "https://www.off---white.com/en/PT/section/new-arrivals",
+        "product_url": ["https://www.off---white.com/en/PT/men/products/omia085f19d680010110",
+        "https://www.off---white.com/en/PT/men/products/omia085f19d680010110",
+        "https://www.off---white.com/en/PT/men/products/omzg002s196470016000"],
         "trafic_rn": ["https://www.off---white.com/en/PT/section/all??utf8=%E2%9C%93&f%5Bseasons%5D%5B%5D=953",
         "https://www.off---white.com/en/PT/section/all?utf8=%E2%9C%93&f%5Bseasons%5D%5B%5D=1026",
         "https://www.off---white.com/en/PT/section/all?utf8=%E2%9C%93&f%5Bcategories%5D%5B%5D=881",
