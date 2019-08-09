@@ -1,12 +1,13 @@
+
 # MINIONS_BOTS
 MINIONS Bots repository for e-shop on LV, Supreme, Gucci, Nike, Adidas and more.
 
 ## Updates:
 **Right Now**
 
- - Developing Bypasses for websites
- - Started Proxies Tests *(Update 3/08) -* **Test Failed**
- - Testing ImageSearch and Pyautogui methods
+ - **OffWhite bypass test**  ✅
+ - Python bot scripts under development 
+ ***Current Status:*** Connecting python and js core
 
 **Version 0.0.1**
 
