@@ -1,4 +1,4 @@
-from config import keys
+import json
 from imagesearch import *
 from bs4 import BeautifulSoup
 import time
@@ -6,13 +6,23 @@ import random
 import re
 import pyperclip
 import datetime
-
+import threading
+import subprocess
 global i
 global pmodelsset
 global products_math
 global p_models
+global keys
 i = 0
 pmodelsset = False
+
+#BOT Parser
+def cnf_parser():
+    global keys
+    config_file = open('config.json')
+    keys = json.load(config_file)
+
+
 
 def setup():
     global searchbar
@@ -82,6 +92,7 @@ def innerHTML(element):
 
 
 def RandomRequest():
+    global keys
     global i
     global pmodelsset
     global products_math
@@ -161,13 +172,16 @@ def PointerTrick():
         #print("Random Moving: STEP: %s | X: %s Y: %s | Motion Time: %s" % (str(x), str(tpx), str(tpy), str(tftp)))
         pyautogui.moveTo(tpx, tpy, tftp)
 
-if __name__ == '__main__':
-    #Setup
-    setup();
-    buylinks = keys["product_url"];
-    #Main Program
-    for x in range(0,2):
+def MainCheck(buylinks):
+    while True:
         RandomRequest(); #Random request
         for link in buylinks:
             PointerTrick(); #Confuse Server UPTs (User Pointer Trackers)
             LinkRequest(link); #Link Request
+
+if __name__ == '__main__':
+    #Setup
+    cnf_parser();
+    setup();
+    buylinks = keys["product_url"];
+    MainCheck(buylinks)
