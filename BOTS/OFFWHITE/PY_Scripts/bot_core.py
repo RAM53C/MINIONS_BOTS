@@ -20,7 +20,6 @@ global working
 #For Links Setup
 global linkcheck
 global ready
-threads = []
 i = 0
 working = False
 pmodelsset = False
@@ -34,6 +33,7 @@ logs = True
 def logToConsole(text):
     if logs == True:
         print(text)
+        sys.stdout.flush()
 
 
 #BOT Parser
@@ -48,7 +48,7 @@ def cnf_parser(): #Refresh time: 1 second
         time.sleep(1)
 
 def update_cnf(cnf):
-    myCmd = 'sudo python cnf_modifier.py -c "' + str(cnf) + '"'
+    myCmd = 'python cnf_modifier.py -c "' + str(cnf) + '"'
     logToConsole("Updating Config: " + str(myCmd))
     os.system(myCmd)
 
@@ -118,16 +118,24 @@ def check_links(keys):
     buylinks = keys["product_url"];
     if buylinks:
         blv = []
+        rpl = []
         for link in buylinks: # Just check domain
             if ("https://www.off---white.com/en/PT/men/products/" in link) or ("https://www.off---white.com/en/PT/women/products/" in link):
                 logToConsole(str(link) + " OK!")
                 blv.append(link)
             else:
                 logToConsole(str(link) + " FAILED!")
-        #Export BLV and create config
-        cnfdict = {"product_url": blv, "state": "ready"}
-        update_cnf(cnfdict)
-        return True
+                rpl.append(link)
+        if (blv):
+            #Export BLV and create config
+            cnfdict = {"product_url": blv, "rejected_links": rpl, "state": "ready"}
+            update_cnf(cnfdict)
+            return False
+        else:
+            #Export BLV and create config
+            cnfdict = {"product_url": blv, "rejected_links": rpl, "state": "unset"}
+            update_cnf(cnfdict)
+            return False
     else:
         logToConsole("No Links to check")
         cnfdict = {"state": "unset"}
@@ -153,17 +161,19 @@ def stop_bot():
 def setup():
     global searchbar
     searchbar = [];
-    logToConsole("Getting Browser...")
+    logToConsole("GET_BROWSER")
     #Get search bar coordinates
     pos = imagesearch("imagedata/googlesearch.png")
     if pos[0] != -1:
         #Some Maths
         x = pos[0] + 200
         y = pos[1] + 15
+        logToConsole("BAR_FOUND")
         logToConsole(str("Search Bar position : " + str(x) + " " + str(y)))
         searchbar.append(x)
         searchbar.append(y)
     else:
+        logToConsole("BAR_NOT_FOUND")
         logToConsole("Failed to get browser: image not found")
         sys.exit(1)
 
@@ -313,5 +323,6 @@ if __name__ == '__main__':
     setup();
     global cpw
     global threads
+    threads = []
     cpw = threading.Thread(target=cnf_parser);
     cpw.start();

@@ -4,15 +4,18 @@ const fs = require('fs');
 
 //get state
 exports.getState = function() {
-  botfileContents = fs.readFileSync('./bot.json', 'utf8')
+  botfileContents = fs.readFileSync('./PY_Scripts/config.json', 'utf8')
   try {
     return JSON.parse(botfileContents)
   } catch(err) {
-    console.error("Failed to parse bot.json")
+    console.error("Failed to parse config.json")
     console.error(err)
     process.exit(1)
   }
 }
+
+
+
 
 //Missing dependencies, deactivated
 //Get Link
