@@ -62,7 +62,7 @@ function setup() {
       } else {
         console.log("[SERVER]: Registering " + id)
         state = data["state"];
-        link = data["link"];
+        link = data["product_url"];
         bots[id] = {"connection": true, "state": state, "link": link}
       }
     });
