@@ -58,7 +58,9 @@ function setup() {
         //Already registered
         console.log("[SERVER]: Bot Connected: " + id)
         //Connection true
-        bots[id]["connection"] = true;
+        state = data["state"];
+        link = data["product_url"];
+        bots[id] = {"connection": true, "state": state, "link": link}
       } else {
         console.log("[SERVER]: Registering " + id)
         state = data["state"];

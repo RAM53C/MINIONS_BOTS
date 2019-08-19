@@ -38,11 +38,11 @@ exports.check_disconnect = function(bots, dataarg) {
 }
 
 exports.set_link = function(bots, target, link) {
-  console.log("[SERVER]: Setting link for "+target+"...");
+  console.log("[SERVER]: Setting links for "+target+"...");
   try {
     if (bots.hasOwnProperty(target)) {
       bots[target]["link"] = link
-      console.log("[SERVER]: " + chalk.green("Link set ("+target+")"))
+      console.log("[SERVER]: " + chalk.green("Links set ("+target+")"))
       return true;
     } else {
       console.log("[SERVER]: " + target + " is not registered")
