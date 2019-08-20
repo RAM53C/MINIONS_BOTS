@@ -1,0 +1,21 @@
+{
+    "id": "BOT_OFFWHITE0", 
+    "product_url": [], 
+    "rejected_links": [], 
+    "state": "shutdown", 
+    "trafic_rn": [
+        "https://www.off---white.com/en/PT/section/all??utf8=%E2%9C%93&f%5Bseasons%5D%5B%5D=953", 
+        "https://www.off---white.com/en/PT/section/all?utf8=%E2%9C%93&f%5Bseasons%5D%5B%5D=1026", 
+        "https://www.off---white.com/en/PT/section/all?utf8=%E2%9C%93&f%5Bcategories%5D%5B%5D=881", 
+        "https://www.off---white.com/en/PT/section/all?utf8=%E2%9C%93&f%5Bcategories%5D%5B%5D=770", 
+        "https://www.off---white.com/en/PT/section/all?utf8=%E2%9C%93&f%5Bcategories%5D%5B%5D=799", 
+        "https://www.off---white.com/en/PT/section/all?utf8=%E2%9C%93&f%5Bcategories%5D%5B%5D=882", 
+        "https://www.off---white.com/en/PT/section/all?utf8=%E2%9C%93&f%5Bcategories%5D%5B%5D=870", 
+        "https://www.off---white.com/en/PT/section/all?utf8=%E2%9C%93&f%5Bcategories%5D%5B%5D=819", 
+        "https://www.off---white.com/en/PT/section/all?utf8=%E2%9C%93&f%5Bcategories%5D%5B%5D=784", 
+        "https://www.off---white.com/en/PT/section/all?utf8=%E2%9C%93&f%5Bcategories%5D%5B%5D=876", 
+        "https://www.off---white.com/en/PT/section/all?utf8=%E2%9C%93&f%5Bcategories%5D%5B%5D=794", 
+        "https://www.off---white.com/en/PT/section/all?utf8=%E2%9C%93&f%5Bcategories%5D%5B%5D=836"
+    ], 
+    "version": "0.0.1"
+}
