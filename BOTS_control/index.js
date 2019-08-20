@@ -56,8 +56,14 @@ function setup() {
       //Add BOT to Object or login
       if (bots.hasOwnProperty(id)) {
         //Already registered
-        console.log("[SERVER]: Bot Connected: " + id)
+        if (bots[id]["connection"] == false) {
+          console.log("[SERVER]: Bot Connected: " + id)
+        }
         //Connection true
+        if (bots[id]["state"] != data["state"]) {
+          stt = cliCommands.evalState(data["state"])
+          console.log("[SERVER]["+id+"]: " + stt)
+        }
         state = data["state"];
         link = data["product_url"];
         bots[id] = {"connection": true, "state": state, "link": link}

@@ -1,6 +1,16 @@
 const fs = require('fs');
 const chalk = require('chalk');
 
+//Essentials for notifications
+var notifications = {"ready": "Ready, waiting for console"}
+exports.evalState = function(state) {
+    if (notifications.hasOwnProperty(state)) {
+      return notifications[state]
+    } else {
+      return state
+    }
+}
+
 
 exports.list = function(bots) {
   console.log(chalk.grey("Registered BOTS:"))
