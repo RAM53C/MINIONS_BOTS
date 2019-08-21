@@ -175,6 +175,7 @@ def setup():
     else:
         logToConsole("BAR_NOT_FOUND")
         logToConsole("Failed to get browser: image not found")
+        os.system("python cnf_modifier.py -c \"{'state':'shutdown'}\"")
         sys.exit(1)
 
 def waitfor_image(imgname):
@@ -309,11 +310,10 @@ def PointerTrick():
 
 def MainCheck():
     global keys
-    global bw
     logToConsole("BOT: Starting...")
     buylinks = keys["product_url"];
-    bw = threading.currentThread()
-    while getattr(bw, "do_run", True):
+    bws = threading.currentThread()
+    while getattr(bws, "do_run", True):
         RandomRequest(); #Random request
         for link in buylinks:
             PointerTrick(); #Confuse Server UPTs (User Pointer Trackers)
