@@ -5,13 +5,17 @@ MINIONS Bots repository for e-shop on LV, Supreme, Gucci, Nike, Adidas and more.
 ## What we're doing:
 **Completed tasks:**
 
- - **OffWhite bypass test**  ✔️
- - **Python bot scripts**  ✔️
- - **Python and NodeJS core connection** ✔️
- - **RTSS (Real Time Status System)** ✔️
+ - ✔️ **OffWhite bypass test**
+ - ✔️ **Python bot scripts**
+ - ✔️ **Python and NodeJS core connection**
+ - ✔️ **RTSS (Real Time Status System)**
+ - ✔️ **Set link command**
+ - ✔️ **Rejected links commands (list rl, rl solve -all)**
+ - ✔️ **BOT: Start and stop commands**
+ - ✔️ **Patched browser_not_found exception** ⚠️
 
 
-***Current Status:*** *Working on <set_link> feature*
+***Current Status:*** *Running performance tests*
 
 
 ## Releases:
