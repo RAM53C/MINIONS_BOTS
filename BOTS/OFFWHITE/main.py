@@ -76,6 +76,7 @@ def setup():
         port = inquirer.prompt(portask)["port"]
     cadress = str(ip) + ":" + str(port)
     motd();
+    os.system("python cnf_modifier.py -c \"{'state':'unset'}\"")
     initialize_bot();
     main(cadress);
 
@@ -148,6 +149,15 @@ def main(ip):
             print("Checking links...")
             checklinks = data.split()[1]
             os.system("python cnf_modifier.py -c \"{'product_url':"+checklinks+", 'state':'check'}\"")
+        elif data == "rlsolve":
+            print("Removing rejected links...")
+            os.system("python cnf_modifier.py -c \"{'rejected_links':[], 'state':'check'}\"")
+        elif data == "start":
+            print("Starting BOT...")
+            os.system("python cnf_modifier.py -c \"{'state':'start'}\"")
+        elif data == "stop":
+            print("Stopping BOT...")
+            os.system("python cnf_modifier.py -c \"{'state':'stop'}\"")
         else:
             print("Invalid command")
 
