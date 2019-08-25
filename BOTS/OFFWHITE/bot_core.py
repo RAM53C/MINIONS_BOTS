@@ -38,6 +38,7 @@ def logToConsole(text):
 
 #BOT Parser
 def cnf_parser(): #Refresh time: 1 second
+    global keys
     logToConsole("Loading Parser...")
     cp = threading.currentThread()
     while getattr(cp, "do_run", True):
