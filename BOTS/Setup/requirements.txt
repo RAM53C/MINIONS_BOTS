@@ -1,0 +1,8 @@
+opencv-python
+numpy
+python3_xlib
+pyautogui
+pyperclip
+beautifulsoup4
+inquirer
+python-socketio[client]

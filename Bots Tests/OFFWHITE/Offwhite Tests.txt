@@ -1,0 +1,27 @@
+OFFWHITE TEST:
+sun 00:32 - 25/08/2019
+
+Products not available:
+https://www.off---white.com/en/PT/men/products/omnf001r196470216000
+https://www.off---white.com/en/PT/women/products/owea163s19d530446200
+
+Products ready to buy:
+https://www.off---white.com/en/PT/men/products/omea169s19d160156210
+https://www.off---white.com/en/PT/men/products/ombd010r19c120211000
+
+
+Check: 2x for loop
+
+Array:
+https://www.off---white.com/en/PT/men/products/omea169s19d160156210
+https://www.off---white.com/en/PT/men/products/omnf001r196470216000
+https://www.off---white.com/en/PT/men/products/ombd010r19c120211000
+https://www.off---white.com/en/PT/women/products/owea163s19d530446200
+
+
+Final command:
+(Note: Command executed on local console)
+
+set link -bot BOT_OFFWHITE0 ['https://www.off---white.com/en/PT/men/products/omea169s19d160156210','https://www.off---white.com/en/PT/men/products/omnf001r196470216000','https://www.off---white.com/en/PT/men/products/ombd010r19c120211000','https://www.off---white.com/en/PT/women/products/owea163s19d530446200']
+
+Conclusion: PASSED (2 minutes). Demo may require another 10/30 minutes test
