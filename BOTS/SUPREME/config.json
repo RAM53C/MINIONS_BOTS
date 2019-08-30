@@ -1,0 +1,16 @@
+{
+    "buyoptions": {
+        "https://www.supremenewyork.com/shop/jackets/iyrlo6ga3/ic7l9xmf1": {
+            "Large": 1,
+            "Medium": 2
+        }
+    },
+    "id": "BOT_SUPREME0",
+    "product_url": [
+        "https://www.supremenewyork.com/shop/jackets/iyrlo6ga3/ic7l9xmf1",
+        "https://www.supremenewyork.com/shop/jackets/tilg2r8hb/ktpaodug9"
+    ],
+    "rejected_links": [],
+    "state": "shutdown", 
+    "version": "0.0.1"
+}
