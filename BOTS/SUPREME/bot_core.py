@@ -2,6 +2,7 @@ import json
 from bs4 import BeautifulSoup
 import time
 import random
+import string
 import re
 import datetime
 import threading
@@ -69,10 +70,11 @@ def removeProduct(link):
     global keys
     buylinks = keys["product_url"];
     print("Product was aquired, removing link from list...")
-    buylinks.remove(link)
-    # Remove product link from list
-    cnfdict = {"product_url": buylinks}
-    update_cnf(cnfdict)
+    if link in buylinks:
+        buylinks.remove(link)
+        # Remove product link from list
+        cnfdict = {"product_url": buylinks}
+        update_cnf(cnfdict)
     if not buylinks: #Check if array is empty
         print("Bot finished, no links to check")
         cnfdict = {"state": "stop"}
@@ -183,7 +185,9 @@ def initialize_bot():
 
 def stop_bot():
     global bw
+    global working
     bw.do_run = False
+    working = False
 
 def setup():
     global searchbar
@@ -206,13 +210,13 @@ def loadLink(link):
     productstate = soup.find_all('fieldset', {'id':"add-remove-buttons"})[0];
     productstate = productstate.findChildren("input" , recursive=False)
     productprice = soup.find_all('p', {'class':"price"})[0];
+    productprice = productprice.findChildren("span" , recursive=False)[0];
     productprice = str(productprice.contents[0]);
     sizes = []
     if productstate:
         product_available = True
         # Get available sizes
-        productsizes = soup.find_all('select', {'id':"size"})[0];
-        productsizes = productstate.findChildren("option" , recursive=True)
+        productsizes = soup.find_all('option'); #WARNING: Parameter should be more specific
         for size in productsizes:
             size = str(size.contents[0]);
             sizes.append(size)
@@ -243,7 +247,9 @@ def LinkRequest(link):
                 buysizes[size] = sizeconfig[size]
         if buysizes:
             print("Buying Stocks...")
-            buyProduct(link, product["name"], product["price"], buysizes);
+            # Generate order code
+            ordercode = genCode(str(link));
+            buyProduct(link, product["name"], product["price"], buysizes, keys["id"], ordercode);
             removeProduct(link)
     else:
         ConsoleProductLog(product["name"], "Not Available", product["sizes"])
@@ -263,21 +269,66 @@ def ConsoleProductLog(product, state, sizes):
 def MainCheck():
     global keys
     logToConsole("BOT: Starting...")
-    buylinks = keys["product_url"];
     bws = threading.currentThread()
     while getattr(bws, "do_run", True):
+        buylinks = keys["product_url"];
         for link in buylinks:
             LinkRequest(link); #Link Request
 
-def buyProduct(link, name, price, size):
+def genCode(link):
+    # Generate 6 chars bot code
+    bcode = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+    # Grab product code
+    pcode = link.split("/")[-1]
+    # Final code
+    ocode = str(pcode) + "-" + str(bcode)
+    return ocode;
+
+def buyProduct(link, name, price, size, botid, ordercode):
+    # Create Invoice
+    OrderInvoice(link, name, price, size, botid, ordercode);
+
+def OrderInvoice(link, name, price, size, botid, ordercode):
+    print("Creating Invoice...")
+    print("")
+    print("")
     print("*********************")
     print("Order Info:")
     print("*********************")
+    print("Order Code: " + str(ordercode))
     print("Product Name: " + str(name))
     print("Product Link: " + str(link))
     print("Quantity: ")
+    total = 0
+    price = price.replace("€", "")
     for key, value in size.items():
-        print(" - " + key + ": " + str(value) + " x " + str(price))
+        print(" - " + key + ": " + str(value) + " x " + str(price) + "€")
+        total += value * int(price)
+    print(" Total: " + str(total) + "€")
+    print("Buy Method: MIN-IONS Shop Gateway (MINshop.js)")
+    print("")
+    now = datetime.datetime.now()
+    print("Processed by " + botid + " at " + now.strftime("%m/%d/%Y, %H:%M:%S"))
+    print("")
+    print("")
+    # Write on file
+    f = open("invoices/"+str(ordercode)+".txt", "w+");
+    f.write("*********************\n")
+    f.write("Order Info:\n")
+    f.write("*********************\n")
+    f.write("Order Code: " + str(ordercode) + "\n")
+    f.write("Product Name: " + str(name) + "\n")
+    f.write("Product Link: " + str(link) + "\n")
+    f.write("Quantity: " + "\n")
+    for key, value in size.items():
+        f.write(" - " + key + ": " + str(value) + " x " + str(price) + "€" + "\n")
+    f.write(" Total: " + str(total) + "€" + "\n")
+    f.write("Buy Method: MIN-IONS Shop Gateway (MINshop.js)" + "\n")
+    f.write("" + "\n")
+    f.write("Processed by " + botid + " at " + now.strftime("%m/%d/%Y, %H:%M:%S") + "\n")
+    f.close();
+    print("Invoice saved at invoices/"+str(ordercode)+".txt")
+
 
 
 if __name__ == '__main__':
