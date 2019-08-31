@@ -157,7 +157,9 @@ def initialize_bot():
 
 def stop_bot():
     global bw
+    global working
     bw.do_run = False
+    working = False
 
 def setup():
     global searchbar
