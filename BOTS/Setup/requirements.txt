@@ -6,3 +6,4 @@ pyperclip
 beautifulsoup4
 inquirer
 python-socketio[client]
+selenium
