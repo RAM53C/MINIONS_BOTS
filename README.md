@@ -14,12 +14,15 @@ MINIONS Bots repository for e-shop on LV, Supreme, Gucci, Nike, Adidas and more.
  - ✔️ **BOT: Start and stop commands**
  - ✔️ **Patched browser_not_found exception** ⚠️
  - ✔️ **Performance tests complete!**
+ - ✔️ **Supreme bot**
 
 
-***Current Status:*** *Creating buys report system*
+***Current Status:*** *Creating buys report system and shop gateway*
 
 
 ## Releases:
+
+> **Version 0.3 will be launched in september 2019**
 
 **Version 0.2**
 
