@@ -10,6 +10,12 @@
         "https://www.supremenewyork.com/shop/jackets/tilg2r8hb/ktpaodug9"
     ],
     "rejected_links": [],
-    "state": "shutdown", 
+    "state": "shutdown",
+    "toBUY": {
+        "https://www.supremenewyork.com/shop/jackets/iyrlo6ga3/ic7l9xmf1": {
+            "Large": 2,
+            "Medium": 1
+        }
+    },
     "version": "0.0.1"
 }

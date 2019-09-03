@@ -36,8 +36,8 @@ def logToConsole(text):
         print(text)
         sys.stdout.flush()
 
-#Check Internet Connection
-#@yasinkuyu 08/09/2017
+# Check Internet Connection
+# @yasinkuyu 08/09/2017
 
 def check_internet():
     url='http://www.google.com/'
@@ -217,9 +217,10 @@ def loadLink(link):
         product_available = True
         # Get available sizes
         productsizes = soup.find_all('option'); #WARNING: Parameter should be more specific
-        for size in productsizes:
-            size = str(size.contents[0]);
-            sizes.append(size)
+        if productsizes:
+            for size in productsizes:
+                size = str(size.contents[0]);
+                sizes.append(size)
     else:
         product_available = False
     product = {
@@ -245,12 +246,15 @@ def LinkRequest(link):
             if size in sizeconfig:
                 # Get sizes
                 buysizes[size] = sizeconfig[size]
-        if buysizes:
+        if buysizes or sizeconfig == "NoSize":
             print("Buying Stocks...")
             # Generate order code
             ordercode = genCode(str(link));
+
+            if sizeconfig == "NoSize":
+                buysizes = {"NA": "1"}
             buyProduct(link, product["name"], product["price"], buysizes, keys["id"], ordercode);
-            removeProduct(link)
+            #removeProduct(link)
     else:
         ConsoleProductLog(product["name"], "Not Available", product["sizes"])
     time.sleep(1)
@@ -287,6 +291,9 @@ def genCode(link):
 def buyProduct(link, name, price, size, botid, ordercode):
     # Create Invoice
     OrderInvoice(link, name, price, size, botid, ordercode);
+    # Add to buy products
+    cnfdict = {"toBUY": { link: size}}
+    update_cnf(cnfdict)
 
 def OrderInvoice(link, name, price, size, botid, ordercode):
     print("Creating Invoice...")
@@ -305,7 +312,7 @@ def OrderInvoice(link, name, price, size, botid, ordercode):
         print(" - " + key + ": " + str(value) + " x " + str(price) + "€")
         total += value * int(price)
     print(" Total: " + str(total) + "€")
-    print("Buy Method: MIN-IONS Shop Gateway (MINshop.js)")
+    print("Buy Method: MIN-IONS Shop Gateway (MINshop.py)")
     print("")
     now = datetime.datetime.now()
     print("Processed by " + botid + " at " + now.strftime("%m/%d/%Y, %H:%M:%S"))
@@ -323,7 +330,7 @@ def OrderInvoice(link, name, price, size, botid, ordercode):
     for key, value in size.items():
         f.write(" - " + key + ": " + str(value) + " x " + str(price) + "€" + "\n")
     f.write(" Total: " + str(total) + "€" + "\n")
-    f.write("Buy Method: MIN-IONS Shop Gateway (MINshop.js)" + "\n")
+    f.write("Buy Method: MIN-IONS Shop Gateway (MINshop.py)" + "\n")
     f.write("" + "\n")
     f.write("Processed by " + botid + " at " + now.strftime("%m/%d/%Y, %H:%M:%S") + "\n")
     f.close();
