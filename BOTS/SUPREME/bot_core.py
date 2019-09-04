@@ -246,15 +246,14 @@ def LinkRequest(link):
             if size in sizeconfig:
                 # Get sizes
                 buysizes[size] = sizeconfig[size]
-        if buysizes or sizeconfig == "NoSize":
+        if buysizes or "NA" in sizeconfig:
+            if "NA" in sizeconfig:
+                buysizes = sizeconfig
             print("Buying Stocks...")
             # Generate order code
             ordercode = genCode(str(link));
-
-            if sizeconfig == "NoSize":
-                buysizes = {"NA": "1"}
             buyProduct(link, product["name"], product["price"], buysizes, keys["id"], ordercode);
-            #removeProduct(link)
+            removeProduct(link)
     else:
         ConsoleProductLog(product["name"], "Not Available", product["sizes"])
     time.sleep(1)

@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import Select
 import json
 import threading
 import subprocess
@@ -19,7 +20,7 @@ def cnf_parser(): #Refresh time: 1 second
 
 def update_cnf(cnf):
     myCmd = 'python cnf_modifier.py -c "' + str(cnf) + '"'
-    logToConsole("Updating Config: " + str(myCmd))
+    print("Updating Config: " + str(myCmd))
     os.system(myCmd)
 
 def stop_parser():
@@ -38,10 +39,12 @@ def requestLink(link):
     assert "Supreme" in driver.title
     print("Done!")
 
-def MainBuy(link):
+def MainBuy():
+    global keys
     products = keys["toBUY"]
     for key, value in products.items():
         models = keys["toBUY"][key]
+        link = key
         print("Product: " + key)
         for key, value in models.items():
             buyProduct(link, key, value, models);
@@ -50,12 +53,11 @@ def MainBuy(link):
     print("--> Checkout")
 
 def buyProduct(link, key, value, models):
+    global keys
     # Get Product Page
     print("Size to buy: " + key)
     requestLink(link);
-
-
-
+    addToCart(key);
     # After buy
     #Get Key value
     qnty = int(value) - 1
@@ -63,8 +65,26 @@ def buyProduct(link, key, value, models):
         del models[key]
     else:
         models[key] = qnty
-    cnfdict = {"toBUY": { link: models}}
-    update_cnf(cnfdict)
+    if not models:
+        print("Stock to buy: Complete")
+        print("Deleting link...")
+        toBuy = keys["toBUY"] # Parse Buy List
+        del toBuy[link] # Remove link from Buy List
+        cnfdict = {"toBUY": toBuy}
+        update_cnf(cnfdict)
+    else:
+        cnfdict = {"toBUY": { link: models}}
+        update_cnf(cnfdict)
+
+def addToCart(size):
+    global driver
+    # First Check Size
+    if size != "NA":
+        # Size is defined, check correct size option
+        select = Select(driver.find_element_by_name('size')) # Get select element
+        select.select_by_visible_text(size)
+    driver.find_element_by_name("commit").click()
+
 
 if __name__ == '__main__':
     global cpw
@@ -75,11 +95,9 @@ if __name__ == '__main__':
         threads = []
         cpw = threading.Thread(target=cnf_parser);
         cpw.start();
-        config_file = open('config.json')
-        keys = json.load(config_file)
-        link = keys["toBUY"][0];
-        MainBuy(link);
+        time.sleep(2)
+        MainBuy();
     except KeyboardInterrupt:
-        print "Bye"
+        print ("Bye")
         stop_parser();
         sys.exit(1)

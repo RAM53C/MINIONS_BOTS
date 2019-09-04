@@ -1,21 +1,23 @@
 {
     "buyoptions": {
-        "https://www.supremenewyork.com/shop/jackets/iyrlo6ga3/ic7l9xmf1": {
-            "Large": 2,
+        "https://www.supremenewyork.com/shop/jackets/iyrlo6ga3/yms8bnr2q": {
+            "Medium": 3
+        }, 
+        "https://www.supremenewyork.com/shop/pants/pcsbi5kjg/b3hzwk1ms": {
+            "Large": 1, 
             "Medium": 1
         }
-    },
-    "id": "BOT_SUPREME0",
+    }, 
+    "id": "BOT_SUPREME0", 
     "product_url": [
         "https://www.supremenewyork.com/shop/jackets/tilg2r8hb/ktpaodug9"
-    ],
-    "rejected_links": [],
-    "state": "shutdown",
+    ], 
+    "rejected_links": [], 
+    "state": "working", 
     "toBUY": {
-        "https://www.supremenewyork.com/shop/jackets/iyrlo6ga3/ic7l9xmf1": {
-            "Large": 2,
-            "Medium": 1
+        "https://www.supremenewyork.com/shop/jackets/iyrlo6ga3/yms8bnr2q": {
+            "Medium": 3
         }
-    },
+    }, 
     "version": "0.0.1"
 }
