@@ -205,13 +205,19 @@ def loadLink(link):
     r = requests.get(link)
     page_html = r.text;
     soup = BeautifulSoup(page_html, "html.parser")
-    productname = soup.find_all('h1', {'class':"protect"})[0];
-    productname = str(productname.contents[0]);
-    productstate = soup.find_all('fieldset', {'id':"add-remove-buttons"})[0];
-    productstate = productstate.findChildren("input" , recursive=False)
-    productprice = soup.find_all('p', {'class':"price"})[0];
-    productprice = productprice.findChildren("span" , recursive=False)[0];
-    productprice = str(productprice.contents[0]);
+    try:
+        productname = soup.find_all('h1', {'class':"protect"})[0];
+    except IndexError:
+        productname = "Not Found"
+        productstate = []
+        productprice = "NA"
+    else:
+        productname = str(productname.contents[0]);
+        productstate = soup.find_all('fieldset', {'id':"add-remove-buttons"})[0];
+        productstate = productstate.findChildren("input" , recursive=False)
+        productprice = soup.find_all('p', {'class':"price"})[0];
+        productprice = productprice.findChildren("span" , recursive=False)[0];
+        productprice = str(productprice.contents[0]);
     sizes = []
     if productstate:
         product_available = True
@@ -291,7 +297,9 @@ def buyProduct(link, name, price, size, botid, ordercode):
     # Create Invoice
     OrderInvoice(link, name, price, size, botid, ordercode);
     # Add to buy products
-    cnfdict = {"toBUY": { link: size}}
+    toBuyProducts = keys["toBUY"]
+    toBuyProducts[link] = size
+    cnfdict = {"toBUY": toBuyProducts}
     update_cnf(cnfdict)
 
 def OrderInvoice(link, name, price, size, botid, ordercode):
