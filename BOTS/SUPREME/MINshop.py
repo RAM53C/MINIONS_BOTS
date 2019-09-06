@@ -10,11 +10,14 @@ import os
 
 def cnf_parser(): #Refresh time: 1 second
     global keys
+    global working
     print("Loading Parser...")
     cp = threading.currentThread()
     while getattr(cp, "do_run", True):
         config_file = open('config.json')
         keys = json.load(config_file)
+        if keys["MINshop"] == "shutdown":
+            stop_shop();
         #Conditions
         time.sleep(1)
 
@@ -22,6 +25,14 @@ def update_cnf(cnf):
     myCmd = 'python cnf_modifier.py -c "' + str(cnf) + '"'
     print("Updating Config: " + str(myCmd))
     os.system(myCmd)
+
+def stop_shop():
+    global working
+    print("Parser recieved shutdown")
+    print("Stopping MainBuy...")
+    working = False
+    stop_parser();
+    sys.exit(1)
 
 def stop_parser():
     global cpw
@@ -41,16 +52,23 @@ def requestLink(link):
 
 def MainBuy():
     global keys
-    products = keys["toBUY"]
-    for key, value in products.items():
-        models = keys["toBUY"][key]
-        link = key
-        print("Product: " + key)
-        for key, value in models.items():
-            buyProduct(link, key, value, models);
-            break
-    # Finished, proceed to checkout
-    print("--> Checkout")
+    global working
+    print("Waiting for products...")
+    working = True
+    while working:
+        products = keys["toBUY"]
+        if products:
+            for key, value in products.items():
+                models = keys["toBUY"][key]
+                link = key
+                print("Product: " + key)
+                for key, value in models.items():
+                    buyProduct(link, key, value, models);
+                    break
+            # Finished, proceed to checkout
+            print("--> Checkout")
+            Checkout();
+    print("MainBuy: SHUTDOWN")
 
 def buyProduct(link, key, value, models):
     global keys
@@ -73,7 +91,9 @@ def buyProduct(link, key, value, models):
         cnfdict = {"toBUY": toBuy}
         update_cnf(cnfdict)
     else:
-        cnfdict = {"toBUY": { link: models}}
+        toBuy = keys["toBUY"] # Parse Buy List
+        toBuy[link] = models
+        cnfdict = {"toBUY": toBuy}
         update_cnf(cnfdict)
 
 def addToCart(size):
@@ -86,18 +106,38 @@ def addToCart(size):
     driver.find_element_by_name("commit").click()
 
 
+def Checkout():
+    global driver
+    print("Requesting checkout page...")
+    requestLink("https://www.supremenewyork.com/checkout")
+    # Load checkout info
+    print("Reading Account File...")
+    config_file = open('account.json')
+    ac = json.load(config_file)
+    # Fill form
+    for key, value in ac.items():
+        if key in ["order_billing_country", "credit_card_type", "credit_card_month", "credit_card_year"]:
+            select = Select(driver.find_element_by_id(key)) # Get select element
+            select.select_by_visible_text(value)
+        elif key == "order_terms":
+            checkboxes = [];
+            checkboxes = driver.find_elements_by_class_name("iCheck-helper");
+            terms_checkbox = checkboxes[-1]
+            terms_checkbox.click();
+        else:
+            element = driver.find_element_by_id(key)
+            element.send_keys(value)
+    print("Processing Payment...")
+
+
+
 if __name__ == '__main__':
     global cpw
     global threads
     global keys
-    try:
-        setup();
-        threads = []
-        cpw = threading.Thread(target=cnf_parser);
-        cpw.start();
-        time.sleep(2)
-        MainBuy();
-    except KeyboardInterrupt:
-        print ("Bye")
-        stop_parser();
-        sys.exit(1)
+    setup();
+    threads = []
+    cpw = threading.Thread(target=cnf_parser);
+    cpw.start();
+    time.sleep(2)
+    MainBuy();
