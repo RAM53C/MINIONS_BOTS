@@ -58,6 +58,9 @@ def MainBuy():
     while working:
         products = keys["toBUY"]
         if products:
+            print("Products found, waiting 5 seconds to get more...")
+            products = keys["toBUY"]
+            time.sleep(5) #Wait 5 seconds for more products
             for key, value in products.items():
                 models = keys["toBUY"][key]
                 link = key
@@ -68,6 +71,7 @@ def MainBuy():
             # Finished, proceed to checkout
             print("--> Checkout")
             Checkout();
+            print("Waiting for products...")
     print("MainBuy: SHUTDOWN")
 
 def buyProduct(link, key, value, models):
