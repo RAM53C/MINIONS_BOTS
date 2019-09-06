@@ -1,0 +1,17 @@
+{
+  "order_billing_name": "User",
+  "order_email": "user@example.com",
+  "order_tel": "+351903420627",
+  "bo": "Some Street Somwhere",
+  "oba3": "18th",
+  "order_billing_address_3": "Door 3",
+  "order_billing_city": "Lisbon",
+  "order_billing_zip": "1600-635",
+  "order_billing_country": "PORTUGAL",
+  "credit_card_type": "Visa",
+  "cnb": "5555555555555555",
+  "credit_card_month": "05",
+  "credit_card_year": "2025",
+  "vval": "5555",
+  "order_terms": true
+}
