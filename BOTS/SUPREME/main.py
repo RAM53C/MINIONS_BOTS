@@ -77,6 +77,8 @@ def setup():
     cadress = str(ip) + ":" + str(port)
     motd();
     os.system("python cnf_modifier.py -c \"{'state':'unset'}\"")
+    os.system("python cnf_modifier.py -c \"{'MINshop':'unset'}\"")
+
     initialize_bot();
     main(cadress);
 
@@ -89,11 +91,17 @@ def motd():
 
 def initialize_bot():
     print("Initializing Bot...")
+    print("Starting bot module: Core")
     os.system("xterm -e \"python3 bot_core.py\" &")
+    print("Starting bot module: MIN-SHOP")
+    os.system("xterm -e \"python3 MINshop.py\" &")
 
 def stop_bot():
     print("Stopping Bot...")
+    print("Shutting down bot module: Core")
     os.system("python cnf_modifier.py -c \"{'state':'shutdown'}\"")
+    print("Shutting down bot module: MIN-SHOP")
+    os.system("python cnf_modifier.py -c \"{'MINshop':'shutdown'}\"")
 
 def main(ip):
     global sio
