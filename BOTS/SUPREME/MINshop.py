@@ -59,8 +59,8 @@ def MainBuy():
         products = keys["toBUY"]
         if products:
             print("Products found, waiting 5 seconds to get more...")
-            products = keys["toBUY"]
             time.sleep(5) #Wait 5 seconds for more products
+            products = keys["toBUY"]
             for key, value in products.items():
                 models = keys["toBUY"][key]
                 link = key
@@ -107,12 +107,15 @@ def addToCart(size):
         # Size is defined, check correct size option
         select = Select(driver.find_element_by_name('size')) # Get select element
         select.select_by_visible_text(size)
+    time.sleep(1)
     driver.find_element_by_name("commit").click()
+    time.sleep(1)
 
 
 def Checkout():
     global driver
     print("Requesting checkout page...")
+    time.sleep(2)
     requestLink("https://www.supremenewyork.com/checkout")
     # Load checkout info
     print("Reading Account File...")
