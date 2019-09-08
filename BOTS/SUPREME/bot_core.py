@@ -6,6 +6,7 @@ import string
 import re
 import datetime
 import threading
+import _thread
 import subprocess
 import sys
 import os
@@ -178,15 +179,11 @@ def initialize_bot():
         logToConsole("Set state to <stop> first")
     else:
         working = True
-        global threads
-        global bw
-        bw = threading.Thread(target=MainCheck);
-        bw.start();
+        # APPLY PATCH HERE
+        CreateInstances();
 
 def stop_bot():
-    global bw
     global working
-    bw.do_run = False
     working = False
 
 def setup():
@@ -274,15 +271,31 @@ def ConsoleProductLog(product, state, sizes):
     print("Checked at: " + now.strftime("%H:%M:%S"))
     print("=========================")
 
-
-def MainCheck():
+def CreateThread(link):
     global keys
-    logToConsole("BOT: Starting...")
-    bws = threading.currentThread()
-    while getattr(bws, "do_run", True):
-        buylinks = keys["product_url"];
-        for link in buylinks:
-            LinkRequest(link); #Link Request
+    global working
+    instancecode = link.split("/")[-2]
+    print("Initializing BOT Instance Code: " + str(instancecode))
+    while working:
+        LinkRequest(link)
+        time.sleep(1)
+        if link not in keys["product_url"]:
+            break
+    print("Stopping BOT Instance Code: " + str(instancecode))
+
+def CreateInstances():
+    global keys
+    logToConsole("BOTS: Starting Instances...")
+    buylinks = keys["product_url"];
+    for link in buylinks:
+        # Suggested Patch: Instead of checking each link with Sync, use Async processes (threads)
+        # APPLY PATCH HERE
+        # Create threads for each product
+        try:
+            _thread.start_new_thread(CreateThread, (link, ))
+        except Exception as e:
+            print ("Error: Unable to start thread: Instance Code: " + link.split("/")[-2])
+            print(e)
 
 def genCode(link):
     # Generate 6 chars bot code
@@ -297,6 +310,8 @@ def buyProduct(link, name, price, size, botid, ordercode):
     # Create Invoice
     OrderInvoice(link, name, price, size, botid, ordercode);
     # Add to buy products
+    # Sinc var
+    global keys
     toBuyProducts = keys["toBUY"]
     toBuyProducts[link] = size
     cnfdict = {"toBUY": toBuyProducts}
