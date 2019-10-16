@@ -1,3 +1,5 @@
+#Optimize this to V3
+
 import json
 from imagesearch import *
 from bs4 import BeautifulSoup
