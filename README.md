@@ -1,5 +1,5 @@
 
-# MINIONS_BOTS
+# MINIONS_BOTS (outdated/not supported anymore)
 MINIONS Bots repository for e-shop on LV, Supreme, Gucci, Nike, Adidas and more.
 
 ## What we're doing:
